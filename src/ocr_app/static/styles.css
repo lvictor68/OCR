@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6fb;
+}
+
+main {
+  max-width: 920px;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+section {
+  margin-bottom: 1.5rem;
+}
+
+input,
+select,
+button {
+  margin-top: 0.5rem;
+  display: block;
+}
+
+button {
+  padding: 0.55rem 0.8rem;
+}
+
+.messages {
+  list-style: none;
+  padding: 0;
+}
+
+.messages .success {
+  color: #0a7a2d;
+}
+
+.messages .error {
+  color: #b81d1d;
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Проект {{ project.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main>
+      <a href="{{ url_for('index') }}">← К списку проектов</a>
+      <h1>Проект: {{ project.name }}</h1>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <ul class="messages">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+
+      <section>
+        <h2>Импорт из Downloads/Загрузки</h2>
+        <form action="{{ url_for('upload_from_downloads', project_name=project.name) }}" method="post">
+          <select name="download_files" multiple size="8">
+            {% for file in downloads %}
+            <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit">Скопировать в проект</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Изображения в проекте</h2>
+        <ul>
+          {% for image in images %}
+          <li>{{ image.name }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Запуск OCR</h2>
+        <form action="{{ url_for('run_ocr', project_name=project.name) }}" method="post">
+          <label>
+            Порог пакетной обработки
+            <input type="number" name="batch_threshold" value="{{ batch_threshold }}" min="1" />
+          </label>
+          <button type="submit">Распознать текст</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Результаты (.txt)</h2>
+        {% if texts %}
+        <ul>
+          {% for text_file in texts %}
+          <li>
+            <a href="{{ url_for('download_project_file', project_name=project.name, filename=text_file.name) }}">{{ text_file.name }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>Результатов пока нет.</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+</html>
